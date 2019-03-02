@@ -8,8 +8,8 @@
     "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} ./node_modules/.bin/mocha --require ts-node/register/transpile-only --exit \"src/**/*.test.ts\"",
     "build": "rm -rf dist/* && tsc",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "release-patch": "npm run build && npm version patch && npm publish",
-    "release": "npm run build && npm version minor && npm publish"
+    "release-patch": "npm run build && npm version patch && npm publish --access public",
+    "release": "npm run build && npm version minor && npm publish --access public"
   },
   "repository": {
     "type": "git",
