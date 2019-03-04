@@ -16,7 +16,7 @@ http://api/planets?
 Express.js or some other frameworks will produce a queryParams object:
 ```
 const queryparams = {
-   filters: [ 'star=sun', 'type=terrestrial', name[regex]=/^e/' ],
+   filter: [ 'star=sun', 'type=terrestrial', name[regex]=/^e/' ],
    sort: ['name=ASC'],
    offset: 0,
    limit: 10
