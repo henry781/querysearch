@@ -237,4 +237,66 @@ describe('QuerySearch', () => {
                 .to.throw('sort direction <UK> is unknown, only <ASC> and <DSC> are allowed');
         });
     });
+
+    /**
+     * To query params
+     */
+    describe('toQueryParams', () => {
+
+        describe('filter', () => {
+
+            it('should convert', () => {
+
+                const search = new QuerySearch({key: 'value'});
+                const result = search.toQueryParams();
+                chai.expect(result['filter']).length(1);
+                // @ts-ignore
+                chai.expect(result['filter'][0] = 'key=value');
+            });
+
+            it('should convert equal operators', () => {
+
+                const search = new QuerySearch({key: {$eq: 'value'}});
+                const result = search.toQueryParams();
+                chai.expect(result['filter']).length(1);
+                // @ts-ignore
+                chai.expect(result['filter'][0] = 'key[eq]=value');
+            });
+
+            it('should convert unknown operators', () => {
+
+                const search = new QuerySearch({key: {$unknown: 'value'}});
+                const result = search.toQueryParams();
+                chai.expect(result['filter']).length(1);
+                // @ts-ignore
+                chai.expect(result['filter'][0] = 'key[unknown]=value');
+            });
+
+            it('should convert regex operators', () => {
+                const search = new QuerySearch({key: {$regex: /regex/}});
+                const result = search.toQueryParams();
+                chai.expect(result['filter']).length(1);
+                // @ts-ignore
+                chai.expect(result['filter'][0] = 'key[regex]=/regex/');
+            });
+        });
+
+        describe('sort', () => {
+
+            it('should convert to ASC', () => {
+
+                const search = new QuerySearch({}, {key: 1});
+                const result = search.toQueryParams();
+                chai.expect(result['sort']).length(1);
+                chai.expect(result['sort'] = 'key=ASC');
+            });
+
+            it('should convert to DSC', () => {
+                const search = new QuerySearch({}, {key: -1});
+                const result = search.toQueryParams();
+                chai.expect(result['sort']).length(1);
+                chai.expect(result['sort'] = 'key=DSC');
+            });
+        });
+    });
 });

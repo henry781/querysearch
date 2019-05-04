@@ -169,4 +169,44 @@ export class QuerySearch {
         this._offset = offset;
         this._limit = limit;
     }
+
+    /**
+     * Convert to query params
+     */
+    public toQueryParams(): { [key: string]: string | string[] } {
+
+        const filterParam = [];
+        const filterKeys = Object.keys(this.filter);
+        for (const filterKey of filterKeys) {
+
+            const filterValue = this.filter[filterKey];
+            if (typeof filterValue === 'object') {
+
+                const operator = Object.keys(filterValue)[0];
+                if (operator && operator.length > 1 && operator[0] === '$') {
+                    const operatorWithoutPrefix = operator.substr(1);
+                    filterParam.push(`${filterKey}[${operatorWithoutPrefix}]=${filterValue[operator]}`);
+                }
+
+            } else {
+                filterParam.push(`${filterKey}=${filterValue}`);
+            }
+        }
+
+        const sortParam = [];
+        const sortKeys = Object.keys(this.sort);
+        for (const sortKey of sortKeys) {
+
+            if (this.sort[sortKey] === 1) {
+                sortParam.push(`${sortKey}=ASC`);
+            } else if (this.sort[sortKey] === -1) {
+                sortParam.push(`${sortKey}=DESC`);
+            }
+        }
+
+        return {
+            filter: filterParam,
+            sort: sortParam,
+        };
+    }
 }
