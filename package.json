@@ -1,6 +1,6 @@
 {
   "name": "@henry781/querysearch",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/api.js",
   "typings": "dist/api.d.ts",
